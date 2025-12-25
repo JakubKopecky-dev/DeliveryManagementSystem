@@ -14,7 +14,7 @@ namespace UserService.Persistence
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UserDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
 
             return services;

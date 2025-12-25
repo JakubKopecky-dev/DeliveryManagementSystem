@@ -25,7 +25,8 @@ builder.Services.AddHttpContextAccessor();
 // GraphQL
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddAuthorization();
 
 var app = builder.Build();
 

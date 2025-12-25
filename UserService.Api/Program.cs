@@ -28,6 +28,9 @@ var app = builder.Build();
 
 var env = app.Services.GetRequiredService<IWebHostEnvironment>();
 
+// Apply migration
+if (!env.IsEnvironment("Test"))
+    app.ApplyMigrations();
 
 // Swagger
 if (builder.Configuration.GetValue<bool>("EnableSwagger"))

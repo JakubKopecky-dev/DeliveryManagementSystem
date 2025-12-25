@@ -11,9 +11,7 @@ namespace DeliveryService.Command.Api.DependencyInjection
             {
                 x.UsingInMemory((context, cfg) =>
                 {
-                    cfg.ConfigureEndpoints(context);
                 });
-
 
                 x.AddRider(rider =>
                 {
@@ -21,17 +19,11 @@ namespace DeliveryService.Command.Api.DependencyInjection
                     rider.AddProducer<DeliveryStatusChangedEvent>("delivery-status-changed");
                     rider.AddProducer<DeliveryDeletedEvent>("delivery-deleted");
 
-
-                    var bootstrapServers = configuration["Kafka:BootstrapServers"];
-
                     rider.UsingKafka((context, k) =>
                     {
-                        k.Host(bootstrapServers);
+                        k.Host(configuration["Kafka:BootstrapServers"]);
                     });
-
                 });
-
-
             });
 
 

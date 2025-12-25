@@ -10,10 +10,10 @@ using System.Text;
 
 namespace DeliveryService.Command.Application.Features.Delivery.ChangeDeliveryStatus
 {
-    public class ChangeDeliveryStatusHandler(IDeliveryRepisotry deliveryRepository, IPublishEndpoint publishEndpoint ) : ICommandHandler<ChangeDeliveryStatusCommand,DeliveryDto?>
+    public class ChangeDeliveryStatusHandler(IDeliveryRepisotry deliveryRepository, ITopicProducer<DeliveryStatusChangedEvent> producer ) : ICommandHandler<ChangeDeliveryStatusCommand,DeliveryDto?>
     {
         private readonly IDeliveryRepisotry _deliveryRepisotry = deliveryRepository;
-        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
+        private readonly ITopicProducer<DeliveryStatusChangedEvent> _producer = producer ;
 
 
 
@@ -32,7 +32,7 @@ namespace DeliveryService.Command.Application.Features.Delivery.ChangeDeliverySt
 
 
             DeliveryStatusChangedEvent deliveryEvent = new(updatedDelivery.Id, (DeliveryStatus)(int)updatedDelivery.Status,updatedDelivery.UpdatedAt!.Value, updatedDelivery.UpdatedAt);
-            await _publishEndpoint.Publish(deliveryEvent, ct);
+            await _producer.Produce(deliveryEvent, ct);
 
             return updatedDelivery.DeliveryToDeliveryDto();
         }

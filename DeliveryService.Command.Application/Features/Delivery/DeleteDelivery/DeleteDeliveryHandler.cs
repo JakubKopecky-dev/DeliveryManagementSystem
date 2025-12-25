@@ -9,10 +9,10 @@ using System.Text;
 
 namespace DeliveryService.Command.Application.Features.Delivery.DeleteDelivery
 {
-    public class DeleteDeliveryHandler(IDeliveryRepisotry deliveryRepisotry, IPublishEndpoint publishEndpoint) : ICommandHandler<DeleteDeliveryCommand,DeliveryDto?>
+    public class DeleteDeliveryHandler(IDeliveryRepisotry deliveryRepisotry, ITopicProducer<DeliveryDeletedEvent> producer) : ICommandHandler<DeleteDeliveryCommand,DeliveryDto?>
     {
         private readonly IDeliveryRepisotry _deliveryRepisotry = deliveryRepisotry;
-        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
+        private readonly ITopicProducer<DeliveryDeletedEvent> _producer = producer;
 
 
 
@@ -27,7 +27,7 @@ namespace DeliveryService.Command.Application.Features.Delivery.DeleteDelivery
             _deliveryRepisotry.Remove(delivery);
             await _deliveryRepisotry.SaveChangesAsync(ct);
 
-            await _publishEndpoint.Publish(new DeliveryDeletedEvent(command.DeliveryId), ct);
+            await _producer.Produce(new DeliveryDeletedEvent(command.DeliveryId), ct);
 
             return deletedDelivery;
         }

@@ -19,14 +19,24 @@ builder.Services.AddAuthenticationAndIdentityServiceCollection(builder.Configura
 // HttpContext accessor
 builder.Services.AddHttpContextAccessor();
 
+// Kafka
+builder.Services.AddKafkaMassTransit(builder.Configuration);
+
 // GraphQL
 builder.Services
     .AddGraphQLServer()
     .AddMutationType<Mutation>()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddAuthorization();
 
 
 var app = builder.Build();
+
+var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+// Apply migration
+if (!env.IsEnvironment("Test"))
+    app.ApplyMigrations();
 
 // Client cancellation logging
 app.UseClientCancellationLogging();

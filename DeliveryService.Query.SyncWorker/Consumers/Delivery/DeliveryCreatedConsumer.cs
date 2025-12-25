@@ -31,7 +31,7 @@ namespace DeliveryService.Query.SyncWorker.Consumers.Delivery
                 CreatedAt = message.CreatedAt
             };
 
-            await _client.IndexAsync(delivery, i => i.Index("delivery"), ct);
+            await _client.IndexAsync(delivery, i => i.Index("delivery").Id(delivery.Id), ct);
 
         }
 

@@ -1,3 +1,4 @@
+using CourierService.Api.Auth;
 using CourierService.Api.DependencyInjection;
 using CourierService.Api.GraphQL;
 using CourierService.Api.Middleware;
@@ -25,6 +26,13 @@ builder.Services.AddGraphQLServer()
     .AddAuthorization();    
 
 var app = builder.Build();
+
+var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+// Apply migration
+if (!env.IsEnvironment("Test"))
+    app.ApplyMigrations();
+
 
 app.UseClientCancellationLogging();
 

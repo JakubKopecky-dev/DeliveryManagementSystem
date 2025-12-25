@@ -10,16 +10,12 @@ namespace DeliveryService.Query.SyncWorker.DependencyInjection
         {
             services.AddMassTransit(x =>
             {
-                x.SetKebabCaseEndpointNameFormatter();
-
-                x.AddConsumer<DeliveryCreatedConsumer>();
-                x.AddConsumer<DeliveryDeletedConsumer>();
-                x.AddConsumer<DeliveryStatusChangedConsumer>();
-
+                x.UsingInMemory((context, cfg) =>
+                {
+                });
 
                 x.AddRider(rider =>
                 {
-                    // Topics to subscribe
                     rider.AddConsumer<DeliveryCreatedConsumer>();
                     rider.AddConsumer<DeliveryDeletedConsumer>();
                     rider.AddConsumer<DeliveryStatusChangedConsumer>();
@@ -28,28 +24,22 @@ namespace DeliveryService.Query.SyncWorker.DependencyInjection
                     {
                         k.Host(configuration["Kafka:BootstrapServers"]);
 
-                        k.TopicEndpoint<DeliveryCreatedEvent>("delivery-created", "delivery-service-group", e =>
-                        {
-                            e.ConfigureConsumer<DeliveryCreatedConsumer>(context);
-                        });
+                        k.TopicEndpoint<DeliveryCreatedEvent>("delivery-created","delivery-service-group",e =>
+                            {
+                                e.ConfigureConsumer<DeliveryCreatedConsumer>(context);
+                            });
 
-                        k.TopicEndpoint<DeliveryDeletedEvent>("delivery-deleted", "delivery-service-group", e =>
-                        {
-                            e.ConfigureConsumer<DeliveryDeletedConsumer>(context);
-                        });
+                        k.TopicEndpoint<DeliveryDeletedEvent>("delivery-deleted","delivery-service-group",e =>
+                            {
+                                e.ConfigureConsumer<DeliveryDeletedConsumer>(context);
+                            });
 
-                        k.TopicEndpoint<DeliveryStatusChangedEvent>("delivery-status-changed", "delivery-service-group", e =>
-                        {
-                            e.ConfigureConsumer<DeliveryStatusChangedConsumer>(context);
-                        });
+                        k.TopicEndpoint<DeliveryStatusChangedEvent>("delivery-status-changed","delivery-service-group",e =>
+                            {
+                                e.ConfigureConsumer<DeliveryStatusChangedConsumer>(context);
+                            });
                     });
-
-
-
                 });
-
-
-
             });
 
             return services;

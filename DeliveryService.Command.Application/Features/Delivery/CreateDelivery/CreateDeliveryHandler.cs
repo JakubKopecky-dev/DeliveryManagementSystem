@@ -10,10 +10,10 @@ using Shared.Contracts.Events;
 
 namespace DeliveryService.Command.Application.Features.Delivery.CreateDelivery
 {
-    public class CreateDeliveryHandler(IDeliveryRepisotry deliveryRepisotry,IPublishEndpoint publishEndpoint) : ICommandHandler<CreateDeliveryCommand, DeliveryDto>
+    public class CreateDeliveryHandler(IDeliveryRepisotry deliveryRepisotry,ITopicProducer<DeliveryCreatedEvent> producer) : ICommandHandler<CreateDeliveryCommand, DeliveryDto>
     {
         private readonly IDeliveryRepisotry _deliveryRepository = deliveryRepisotry;
-        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
+        private readonly ITopicProducer<DeliveryCreatedEvent> _producer = producer;
 
 
 
@@ -56,7 +56,7 @@ namespace DeliveryService.Command.Application.Features.Delivery.CreateDelivery
                 CreatedAt = createdDelivery.CreatedAt
             };
 
-            await _publishEndpoint.Publish(deliveryEvent, ct);
+            await _producer.Produce(deliveryEvent, ct);
 
             return createdDelivery.DeliveryToDeliveryDto();
         }

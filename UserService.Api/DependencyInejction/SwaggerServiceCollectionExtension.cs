@@ -42,6 +42,10 @@ namespace UserService.Api.DependencyInejction
                 options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 
 
+                options.AddServer(new OpenApiServer { Url = "/" });
+                options.AddServer(new OpenApiServer { Url = "/user" });
+
+                /*
                 if (env.IsDevelopment())
                 {
                     options.AddServer(new OpenApiServer { Url = "/" });
@@ -51,6 +55,7 @@ namespace UserService.Api.DependencyInejction
                 {
                     options.AddServer(new OpenApiServer { Url = "/user" });
                 }
+                */
 
 
             });
