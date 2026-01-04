@@ -60,6 +60,14 @@
 - Real-time notifications when delivery is created and status changed (SignalR)
 - Gateway for all GraphQL clients (single entry point, resolves cross-service relationships)
 
+
+## Observability & Telemetry
+- OpenTelemetry is enabled across all services for distributed tracing and diagnostics
+- Request-scoped log buffering is applied in selected services (e.g. UserService, CourierService)
+- Log buffering reduces log noise by flushing logs only on warnings or errors
+- This approach preserves full execution context while keeping logs concise
+
+
 ## Testing with Openroute service
 - You need to create [Openroute service](https://openrouteservice.org/) account for API KEY
 
