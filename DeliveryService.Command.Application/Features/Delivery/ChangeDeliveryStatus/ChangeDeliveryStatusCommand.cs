@@ -6,6 +6,6 @@ using System.Text;
 
 namespace DeliveryService.Command.Application.Features.Delivery.ChangeDeliveryStatus
 {
-    public sealed record ChangeDeliveryStatusCommand(Guid Id, ChangeDeliveryStatusDto ChangeDeliveryStatusDto) : ICommand<DeliveryDto?>;
+    public sealed record ChangeDeliveryStatusCommand(Guid DeliveryId, ChangeDeliveryStatusDto ChangeDeliveryStatusDto) : ICommand<DeliveryDto?>;
 
 }

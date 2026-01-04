@@ -2,6 +2,7 @@
 using DeliveryService.Command.Application.DTOs.Delivery;
 using DeliveryService.Command.Application.Interfaces.Repositories;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Shared.Contracts.Events;
 using System;
 using System.Collections.Generic;
@@ -9,18 +10,22 @@ using System.Text;
 
 namespace DeliveryService.Command.Application.Features.Delivery.DeleteDelivery
 {
-    public class DeleteDeliveryHandler(IDeliveryRepisotry deliveryRepisotry, ITopicProducer<DeliveryDeletedEvent> producer) : ICommandHandler<DeleteDeliveryCommand,DeliveryDto?>
+    public class DeleteDeliveryHandler(IDeliveryRepisotry deliveryRepisotry, ITopicProducer<DeliveryDeletedEvent> producer, ILogger<DeleteDeliveryHandler> logger) : ICommandHandler<DeleteDeliveryCommand, DeliveryDto?>
     {
         private readonly IDeliveryRepisotry _deliveryRepisotry = deliveryRepisotry;
         private readonly ITopicProducer<DeliveryDeletedEvent> _producer = producer;
+        private readonly ILogger<DeleteDeliveryHandler> _logger = logger;
 
 
 
         public async Task<DeliveryDto?> Handle(DeleteDeliveryCommand command, CancellationToken ct = default)
         {
-            Domain.Entities.Delivery? delivery = await _deliveryRepisotry.FindByIdAsync(command.DeliveryId,ct);
-            if(delivery is null)
+            Domain.Entities.Delivery? delivery = await _deliveryRepisotry.FindByIdAsync(command.DeliveryId, ct);
+            if (delivery is null)
+            {
+                _logger.LogWarning("Cannot delete delivery. Delivery not found. DeliveryId={DeliveryId}", command.DeliveryId);
                 return null;
+            }
 
             DeliveryDto deletedDelivery = delivery.DeliveryToDeliveryDto();
 
