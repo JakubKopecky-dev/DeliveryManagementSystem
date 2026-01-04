@@ -11,7 +11,7 @@
 - SignalR
 - gRPC
 - MassTransit, Kafka
-- EF CORE
+- EF Core
 - ASP .NET Core Identity
 - JWT (ES256), OIDC
 - GraphQL Fusion Gateway
