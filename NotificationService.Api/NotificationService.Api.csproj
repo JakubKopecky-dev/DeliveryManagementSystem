@@ -14,9 +14,9 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="HotChocolate.ApolloFederation" Version="15.1.11" />
 		<PackageReference Include="HotChocolate.AspNetCore" Version="15.1.11" />
 		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.11" />
+		<PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="15.1.11" />
 		<PackageReference Include="MassTransit" Version="8.5.7" />
 		<PackageReference Include="MassTransit.Kafka" Version="8.5.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
@@ -29,7 +29,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\NotificationService.Application\NotificationService.Application.csproj" />
 		<ProjectReference Include="..\NotificationService.Domain\NotificationService.Domain.csproj" />
-		<ProjectReference Include="..\NotificationService.Persistence\NotificationService.Infrastructure.csproj" />
+		<ProjectReference Include="..\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj" />
 		<ProjectReference Include="..\Shared.Contracts\Shared.Contracts.csproj" />
 	</ItemGroup>
 

@@ -1,0 +1,6 @@
+﻿{
+    "subgraph": "Notification",
+    "http": {
+        "baseAddress": "http://notificationservice:8080/graphql"
+    }
+}

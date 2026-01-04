@@ -1,6 +1,7 @@
 using CourierService.Api.Auth;
 using CourierService.Api.DependencyInjection;
 using CourierService.Api.GraphQL;
+using CourierService.Api.GraphQL.Lookups;
 using CourierService.Api.Middleware;
 using CourierService.Application;
 using CourierService.Persistence;
@@ -23,8 +24,8 @@ builder.Services.AddAuthenticationAndIdentityServiceCollection(builder.Configura
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
+    .AddTypeExtension(typeof(CourierLookup))
     .AddAuthorization()
-    .AddApolloFederation()
     .UseRequest(
         next => async context =>
         {
@@ -88,4 +89,8 @@ app.UseAuthorization();
 
 app.MapGraphQL();
 
+app.RunWithGraphQLCommands(args);
+
 app.Run();
+
+

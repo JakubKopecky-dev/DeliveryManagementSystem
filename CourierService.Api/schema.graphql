@@ -1,0 +1,97 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Courier {
+  id: UUID!
+  name: String!
+  email: String!
+  phoneNumber: String!
+  status: CourierStatus!
+  orderDelivered: Int!
+  latitude: Float
+  longitude: Float
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type CourierDto {
+  id: UUID!
+  name: String!
+  email: String!
+  phoneNumber: String!
+  status: CourierStatus!
+  orderDelivered: Int!
+  latitude: Float
+  longitude: Float
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type GetDistanceAndDurationResponseDto {
+  durationInMinutes: Float!
+  distanceInMeters: Float!
+}
+
+type Mutation @authorize(roles: [ "Admin" ]) {
+  createCourier(input: CreateUpdateCourierDtoInput!): CourierDto! @cost(weight: "10")
+  updateCourier(courierId: UUID! input: CreateUpdateCourierDtoInput!): CourierDto @cost(weight: "10")
+  deleteCourier(courierId: UUID!): CourierDto @cost(weight: "10")
+}
+
+type Query {
+  allCourier: [CourierDto!]! @cost(weight: "10")
+  courierById(id: UUID!): Courier @lookup @internal @cost(weight: "10")
+  distanceAndDurationBetweenCourierAndDelivery(courierId: UUID! deliveryLocation: LocationDtoInput! vehicleType: VehicleType!): GetDistanceAndDurationResponseDto @cost(weight: "10")
+}
+
+input CreateUpdateCourierDtoInput {
+  name: String!
+  email: String!
+  phoneNumber: String!
+}
+
+input LocationDtoInput {
+  longitude: Float!
+  latitude: Float!
+}
+
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
+enum CourierStatus {
+  ONLINE
+  OFFLINE
+}
+
+enum VehicleType {
+  CAR
+  WALKING
+  CYCLING
+}
+
+"The authorize directive."
+directive @authorize("The name of the authorization policy that determines access to the annotated resource." policy: String "Roles that are allowed to access the annotated resource." roles: [String!] "Defines when when the authorize directive shall be applied.By default the authorize directives are applied during the validation phase." apply: ApplyPolicy! = BEFORE_RESOLVER) repeatable on OBJECT | FIELD_DEFINITION
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION
+
+directive @internal on FIELD_DEFINITION
+
+directive @lookup on FIELD_DEFINITION
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")

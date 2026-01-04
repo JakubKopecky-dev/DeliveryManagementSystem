@@ -26,8 +26,7 @@ builder.Services
     .AddGraphQLServer()
     .AddMutationType<Mutation>()
     .AddQueryType<Query>()
-    .AddAuthorization()
-    .AddApolloFederation();
+    .AddAuthorization();
 
 // Open Telemetry
 builder.Services.AddOpenTelemetryService();
@@ -49,5 +48,7 @@ app.UseAuthorization();
 
 app.MapGraphQL();
 
+app.RunWithGraphQLCommands(args);
 
 app.Run();
+

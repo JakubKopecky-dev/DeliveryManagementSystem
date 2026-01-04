@@ -1,0 +1,6 @@
+﻿{
+    "subgraph": "Courier",
+    "http": {
+        "baseAddress": "http://courierservice:8080/graphql"
+    }
+}

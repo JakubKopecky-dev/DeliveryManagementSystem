@@ -1,0 +1,6 @@
+﻿{
+    "subgraph": "Delivery-command",
+    "http": {
+        "baseAddress": "http://deliveryservicecommand:8080/graphql"
+    }
+}

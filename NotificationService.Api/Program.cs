@@ -1,8 +1,10 @@
 using NotificationService.Api.DependencyInjection;
 using NotificationService.Api.GraphQL;
+using NotificationService.Api.Hubs;
 using NotificationService.Application;
 using NotificationService.Infrastructure;
 using NotificationService.Infrastructure.Elastic;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,12 +27,14 @@ builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddAuthorization()
-    .AddApolloFederation();
+    .AddAuthorization();
+
 
 // Open Telemetry
 builder.Services.AddOpenTelemetryService();
 
+// SignalR
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -46,4 +50,10 @@ app.UseAuthorization();
 
 app.MapGraphQL();
 
+// Notification hub map
+app.MapHub<NotificationHub>("hubs/notifications");
+
+app.RunWithGraphQLCommands(args);
+
 app.Run();
+

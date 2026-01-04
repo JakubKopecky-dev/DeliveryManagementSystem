@@ -18,11 +18,14 @@
     <Project Path="DeliveryService.Query.Infrastructure/DeliveryService.Query.Infrastructure.csproj" Id="7c0b1ee4-c345-467e-ad43-02f9e5b49c73" />
     <Project Path="DeliveryService.Query.SyncWorker/DeliveryService.Query.SyncWorker.csproj" Id="de0cbd07-69a8-4de4-bd41-c56a2a504901" />
   </Folder>
+  <Folder Name="/Gateway/">
+    <Project Path="GraphQLGateway/GraphQLGateway.csproj" Id="c91c82e5-d216-42b7-96d6-25f10e952873" />
+  </Folder>
   <Folder Name="/NotificationService/">
     <Project Path="NotificationService.Api/NotificationService.Api.csproj" Id="f9d5e15e-60c6-44b4-8542-9625dff8d746" />
     <Project Path="NotificationService.Application/NotificationService.Application.csproj" Id="27a52ee2-2e77-4da6-9a29-cf22735d1119" />
     <Project Path="NotificationService.Domain/NotificationService.Domain.csproj" Id="3b8bca2a-9097-4c97-95b7-652642480585" />
-    <Project Path="NotificationService.Persistence/NotificationService.Infrastructure.csproj" Id="370bf610-66c0-4182-aefc-a0118979107e" />
+    <Project Path="NotificationService.Infrastructure/NotificationService.Infrastructure.csproj" Id="370bf610-66c0-4182-aefc-a0118979107e" />
   </Folder>
   <Folder Name="/RouteService/">
     <Project Path="RouteService.Api/RouteService.Api.csproj" Id="0080bcab-8436-410b-affc-f639658ce367" />

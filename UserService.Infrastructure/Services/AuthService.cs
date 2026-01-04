@@ -115,7 +115,7 @@ namespace UserService.Infrastructure.Services
 
             var storedToken = await _refreshTokecRepository.GetStoredTokenAsync(hash);
 
-            if (storedToken is null || !storedToken.IsActive)
+            if (storedToken is null || !storedToken.IsActive || storedToken.User is null)
                 throw new UnauthorizedAccessException();
 
 

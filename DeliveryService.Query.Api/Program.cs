@@ -1,5 +1,6 @@
 using DeliveryService.Query.Api.DependencyInjection;
 using DeliveryService.Query.Api.GraphQL;
+using DeliveryService.Query.Api.GraphQL.Types;
 using DeliveryService.Query.Application;
 using DeliveryService.Query.Infrastructure;
 using DeliveryService.Query.Infrastructure.Elastic;
@@ -25,8 +26,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddAuthorization()
-    .AddApolloFederation();
+    .AddType<DeliveryDtoType>()
+    .AddAuthorization();
 
 // Open Telemetry
 builder.Services.AddOpenTelemetryService();
@@ -47,4 +48,7 @@ app.UseAuthorization();
 
 app.MapGraphQL();
 
+app.RunWithGraphQLCommands(args);
+
 app.Run();
+
