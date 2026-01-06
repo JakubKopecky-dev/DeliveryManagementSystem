@@ -40,7 +40,7 @@
 - Return distance and duration
 
 ### UserService
-- Responsible for user management, authentication, and JWT generation  
+- Responsible for user management, authentication, JWT generation and refresh token rotation  
 - Supports classic email/password login using ASP.NET Core Identity  
 - Supports external authentication via **Google (OIDC)**  
 - After successful Google login, the backend validates the Google ID Token and issues its own JWT token
@@ -55,6 +55,7 @@
 - Decoupled microservices communicating via gRPC and Kafka
 - User management
 - User registration and login (JWT authentication, OIDC)
+- Secure authentication using JWT access tokens with refresh token rotation
 - Delivery and Courier management
 - Distance and duration calculation between courier and customer
 - Real-time notifications when delivery is created and status changed (SignalR)
