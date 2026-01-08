@@ -83,7 +83,7 @@
 
 ### Steps
 
-### 1) Clone the repository:
+#### 1) Clone the repository:
 ```bash
 git clone https://github/JakubKopecky-dev/DeliveryManagmentSystem.git
 cd DeliveryManagmentSystem
