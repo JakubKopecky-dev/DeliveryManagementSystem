@@ -59,7 +59,7 @@ builder.Logging.AddGlobalBuffer(options =>
 
 builder.Logging.AddPerIncomingRequestBuffer(options =>
 {
-    options.AutoFlushDuration = TimeSpan.Zero;
+    options.AutoFlushDuration = TimeSpan.FromSeconds(5);
 
     options.Rules.Add(new LogBufferingFilterRule(
         categoryName: "CourierService.", 
